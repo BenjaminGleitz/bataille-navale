@@ -152,8 +152,6 @@ function sendMissile(cellName) {
 // Fonction dont le but est renvoyer un tableau contenant les index correspondant aux coordonnées passées en paramètre : A5 doit donner row: 4 et column: 0
 function getGridIndexes(cellName) {
 
-    // 1- On décortique la chaine de caractères. C'est à dire, on récupère d'un coté la lettre et d'un coté le chiffre
-    // En JS, on peut utiliser une string comme un tableau. C'est à dire que la première lettre de la string peut etre récupérée en utilisant la notation [0]. La 2nde avec [1] et ainsi de suite.
     const cellLetter = cellName[0];
     let cellNumber = cellName[1];
  
@@ -187,7 +185,6 @@ function checkGameOver() {
     // On stocke le nombre de bateau trouvés dans une variable. On part du principe qu'il y a 0 bateaux, et à chaque fois qu'on en trouve un, on incrémente cette variable.
     let remainingBoats = 0;
 
-    // La boucle for...of permet de parcourir un tableau et de mettre chaque entrée de ce tableau dans une variable (ici la variable row)
     for (const row of grid) {
         // la variable row représente une ligne de la grille et est aussi un tableau. Pour parcourir chaque cellule de la grille, on doit donc parcourir celle-ci avec une autre boucle.
         for (const cell of row) {
@@ -212,10 +209,8 @@ function checkGameOver() {
 }
 
 // Fonction demandant à l'utilisateur de taper des coordonnées de cellule à viser, à travers un prompt.
-// https://developer.mozilla.org/fr/docs/Web/API/Window/prompt
 function promptMissileCell() {
 
-    // La fonction prompt permet d'afficher une fenetre popup et l'utilisateur entrée du texte dedans. Ce texte sera récupéré dans la variable targetedCell.
     let targetedCell = prompt('Où envoyer le prochain missile ?');
 
     // On envoie le nom de la cellule récupérée à la fonction sendMissile qui va donc envoyer un missile dessus ! 
