@@ -1,6 +1,6 @@
 html {
     --cell-size: 50px;
-    --color-one: #0bad93;
+    --color-one: #da9235;
     --color-two: #fffdd8;
     --color-hit: green;
     --color-splash: red;
@@ -10,7 +10,7 @@ html {
 
 h1 {
     font-size: 2em;
-    color: #0bad93;
+    color: #da9235;
     margin: 1em;
 }
 
