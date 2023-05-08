@@ -33,8 +33,11 @@ function init() {
 
     //on surveille ce qu'on rentre dans le formulaire à l'aide d'un écouteur d'évènement
     let form = document.querySelector('.form');
-    console.log(form);
     form.addEventListener('submit', handleFormSubmit);
+
+    // on surveille le bouton d'affichage des statistique
+    let statsButton = document.querySelector('button#stats');
+    statsButton.addEventListener('click', handleStatsButton)
 
 }
 
@@ -328,7 +331,34 @@ function uptadeRound() {
     const roundTitle = document.querySelector('h3');
     
     roundTitle.textContent = 'Tour ' + turn;
+}
+
+
+
+function handleStatsButton() {
     
+    if (turn > 1) {
+        // on recupere le nombre de tir reussi
+        const hit = document.querySelectorAll('.hit').length;
+        console.log(hit);
+    
+        // on recupere le nombre de tir raté
+        const splash = document.querySelectorAll('.splash').length;
+        console.log(splash);
+    
+        // on calcule le nombre de tire total
+        const total = hit + splash;
+    
+        // on calcule le pourcentage
+        const hitsPercentage = Math.round(hit * 100 / total);
+        const splashsPercentage = Math.round(splash * 100 / total);
+    
+        // On affiche les statistiques grâce à une alerte
+        alert("Total des tirs : " + total + '\n' + "pourcentage de tirs reussis : " + hitsPercentage + '\n' + "pourcentage de tirs ratés : " + splashsPercentage
+        )
+    } else {
+        alert("Vous devez tirer au moins une fois pour visualiser les statistiques !")
+    }
 }
 
 
