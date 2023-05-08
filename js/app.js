@@ -14,16 +14,40 @@ let grid = [
     ['', '', '', '', '', '', '', '',], // 1
     ['', '', '', '', '', 'b', 'b', '',], // 2
     ['', '', '', '', '', '', '', '',], // 3
-    ['', '', 'b', '', '', '', '', 'p',], // 4
-    ['', '', 'b', '', '', '', '', 'p',], // 5
+    ['', '', 'b', '', '', '', '', '',], // 4
+    ['', '', 'b', '', '', '', '', '',], // 5
     ['', '', 'b', '', '', '', '', '',], // 6
-    ['', '', '', '', '', 't', 't', 't',], // 7
+    ['', '', '', '', '', '', '', '',], // 7
 ];
 
-// console.log(grid);
+/**
+ * fonction servant à initialiser le jeu
+ */
+function init() {
 
-// Affichage de la grille
-displayGrid();
+    // Affichage de la grille
+    displayGrid();
+
+    //on surveille ce qu'on rentre dans le formulaire à l'aide d'un écouteur d'évènement
+    let form = document.querySelector('.form');
+    console.log(form);
+    form.addEventListener('submit', handleFormSubmit);
+
+}
+
+function handleFormSubmit(event) {
+
+    // on annule le rechargement de la page
+    event.preventDefault()
+    console.log('formulaire soumis');
+
+    // On recupére la valeur entrée par l'utilisateur dans le champs
+    const field = document.querySelector('#cellToHit');
+    targetedCell = field.value;
+
+    sendMissile(targetedCell);
+}
+
 
 
 
@@ -258,12 +282,5 @@ function displayHits() {
     // displayGrid();
     // puis on demande au joueur de donner une case
     // promptMissileCell();
-// }
 
-let cell01 = document.getElementById('cell01');
-// console.log(cell01);
-
-let cells = document.querySelectorAll('div.cell');
-// console.log(cells);
-
-// cell01.textContent = "yooo";
+    document.addEventListener('DOMContentLoaded', init)
