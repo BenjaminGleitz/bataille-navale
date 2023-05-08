@@ -7,6 +7,9 @@ const gridHeaders = {
     'columns' : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 };
 
+// compteur de tour
+let turn = 1;
+
 
 // On modélise une ligne de bataille navale à l'aide d'un tableau. Chaque entrée vide représente une cellule et chaque entrée "b" représente une cellule contenant un bateau.
 let grid = [
@@ -39,15 +42,55 @@ function handleFormSubmit(event) {
 
     // on annule le rechargement de la page
     event.preventDefault()
-    console.log('formulaire soumis');
+    // console.log('formulaire soumis');
 
     // On recupére la valeur entrée par l'utilisateur dans le champs
     const field = document.querySelector('#cellToHit');
-    targetedCell = field.value;
 
-    sendMissile(targetedCell);
+    // on transforme la chaine de caractère en majuscule
+    targetedCell = field.value.toUpperCase();
+
+    // On vide la propriété value du champ, donc on vide le contenu du champ sur la page
+    field.value = "";
+
+    // Si la cellule cible est valide, alors on envoie le missile
+    if(checkCellName(targetedCell) === true) {
+    
+        // On envoi le missile sur la cellule ciblée. 
+        sendMissile(targetedCell);
+
+        // et on appelle la fonction permettant d'incrémenter le nombre de tour
+        uptadeRound();
+        
+    } else {
+        alert('La case ' + targetedCell + ' n\'existe pas. Veuillez entrer une cellule existante.');
+    }
+
+    // on met le focus sur le champs pour eviter a l'utilisateur de cliquer à nouveau sur le champs
+    field.focus();
 }
 
+/**
+ * Fonction qui attend en parametre le nom d'une cellule pour vérifier si elle existe
+ */
+function checkCellName(cellName) {
+
+    // On sélectionne la cellule ciblée avec un sélecteur utilisant les datasets
+    const cell = document.querySelector('.cell[data-cell-name="' + cellName + '"]');
+    console.log(cell);
+
+    // Si la cellule ciblée n'existe pas, la variable cell contient null. Donc le nom de  la cellule n'est pas valide : on retourne false.
+    if(cell === null) {
+        return false;
+    } else {
+        return true;
+    }
+    
+}
+
+function name(params) {
+    
+}
 
 
 
@@ -133,42 +176,41 @@ function sendMissileAt(rowIndex, columnIndex) {
         // Le tableau grid contient notre ligne. Comme les fonctions JS sont des passo"cinq" => 
     const targetCell = grid[rowIndex][columnIndex];
 
+    let returnValue = false;
+
 
         // Si la case contient "b", il y avait un bateau, c'est touché !
         // Si la case ne contient rien, c'est un plouf
 
     if(targetCell === "b"){
         console.log("Touché !");
-        alert('Touché !');
+        // alert('Touché !');
 
         // Mettre à jour la grille pour ajouter un t à la place du b
         grid[rowIndex][columnIndex] = 't';
 
-        // On affiche la grille mise à jour : 
-        displayGrid();
-
-        return true;
+        // on change la valeur pour qu'elle renvoi "true"
+        returnValue = true;
     }
     // Si on cible une case qui contient soit la lettre "p" soit la lettre "t", c'est qu'on cible une case qui a déjà été touchée. Pas besoin de modifier la grille, on affiche juste un petit message.
     else if(targetCell === 'p' || targetCell === 't') {
         // On indique que la case est déjà touchée, on n'envoie pas de missile.
         console.log("Tu sais pas lire ta grille ? On a déjà attaqué cette case, banane");
-
-        return false;
     }
     else {
         console.log("Plouf !");
-        alert('Raté, essaie encore !');
+        // alert('Raté, essaie encore !');
 
 
         // Mettre à jour la grille pour ajouter un p dans la cellule
         grid[rowIndex][columnIndex] = 'p';
-
-        // On affiche la grille mise à jour : 
-        displayGrid();
-
-        return false;
     }
+
+    // On affiche la grille mise à jour : 
+     displayGrid();
+
+    //  et on retourne la valeurs 
+    return returnValue;
 }
 
 
@@ -272,6 +314,21 @@ function displayHits() {
         console.log(cell.dataset.cellName);
     }
 
+}
+
+/**
+ * Fonction mettant à jour le compteur
+ */
+function uptadeRound() {
+
+    // on incrémente le compteur
+    turn ++;
+
+    // on selectionne la balise contenant le numéro de tour
+    const roundTitle = document.querySelector('h3');
+    
+    roundTitle.textContent = 'Tour ' + turn;
+    
 }
 
 
