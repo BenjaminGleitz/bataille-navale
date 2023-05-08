@@ -10,14 +10,14 @@ const gridHeaders = {
 
 // On modélise une ligne de bataille navale à l'aide d'un tableau. Chaque entrée vide représente une cellule et chaque entrée "b" représente une cellule contenant un bateau.
 let grid = [
-    ['', '', 't', 't', 't', '', '', '',], // 0
+    ['', '', '', '', '', '', '', '',], // 0
     ['', '', '', '', '', '', '', '',], // 1
-    ['', '', 'p', 'p', '', 'b', 'b', '',], // 2
-    ['p', '', '', '', '', '', '', '',], // 3
-    ['', '', 'b', '', '', '', '', '',], // 4
-    ['', '', 'b', '', '', '', 'p', '',], // 5
-    ['', '', 'b', '', 'p', '', '', '',], // 6
-    ['', '', '', '', '', '', '', '',], // 7
+    ['', '', '', '', '', 'b', 'b', '',], // 2
+    ['', '', '', '', '', '', '', '',], // 3
+    ['', '', 'b', '', '', '', '', 'p',], // 4
+    ['', '', 'b', '', '', '', '', 'p',], // 5
+    ['', '', 'b', '', '', '', '', '',], // 6
+    ['', '', '', '', '', 't', 't', 't',], // 7
 ];
 
 // console.log(grid);
@@ -79,8 +79,9 @@ function displayLine(gridLine, rowIndex) {
             // On veut afficher dans la grille HTML les lettres correspondantes à notre tableau JS. Si j'ai un B dans le tableau, je dois avoir un b dans la grille HTML.
             // On crée un sélecteur CSS pour sélectionner la cellule. Chaque cellule a un ID qui commence par "cell" suivi de l'index de ligne et de l'index de colonne.
             const currentHtmlCell = document.querySelector('#cell' + rowIndex + columnIndex);
+            // console.log(currentHtmlCell);
             // On définit le contenu texte de la cellule HTML comme étant le caractère courant.
-            currentHtmlCell.textContent = currentCharacter;
+            // currentHtmlCell.textContent = currentCharacter;
 
             // Si currentCharacter est égal à p alors on doit ajouter la classe splash à la cellule
             if(currentCharacter === 'p') {
@@ -258,3 +259,11 @@ function displayHits() {
     // puis on demande au joueur de donner une case
     // promptMissileCell();
 // }
+
+let cell01 = document.getElementById('cell01');
+// console.log(cell01);
+
+let cells = document.querySelectorAll('div.cell');
+// console.log(cells);
+
+// cell01.textContent = "yooo";
