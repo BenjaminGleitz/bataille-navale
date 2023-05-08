@@ -212,6 +212,9 @@ function sendMissileAt(rowIndex, columnIndex) {
     // On affiche la grille mise à jour : 
      displayGrid();
 
+     // on appelle la fonction qui sert à ajouter l'action à l'historique
+     addActionToHistory(returnValue);
+
     //  et on retourne la valeurs 
     return returnValue;
 }
@@ -358,6 +361,24 @@ function handleStatsButton() {
         )
     } else {
         alert("Vous devez tirer au moins une fois pour visualiser les statistiques !")
+    }
+}
+
+// Méthode permettant d'ajouter une ligne à l'historique
+function addActionToHistory(success) {
+    // On récupère le nom de la cellule entré par l'utilisateur;
+    const field = document.querySelector('#cellToHit');
+    const cellName = field.value;
+    console.log(cellName);
+
+    // On crée un message qui concatène le numéro du tour et le nom de la cellule
+    let message = "Tour #" + turn + " tir en " + cellName;
+    
+    // Si le paramètre success est égal à true, c'est que c'est un tir réussi. On concatène alors un "réussi" à la fin du message.
+    if(success === true) {
+        message += " : réussi !";
+    } else {
+        message += " : manqué...";
     }
 }
 
