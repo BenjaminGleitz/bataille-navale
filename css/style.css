@@ -76,7 +76,6 @@ header.cell {
 }
 
 #actions {
-    display: none;
     width: 50%;
     height: 120px;
     color: var(--color-one);
@@ -88,7 +87,7 @@ header.cell {
     font-size: 1rem;
 }
 
-#hide-actions {
+.hide-actions {
     display :none;
 }
 

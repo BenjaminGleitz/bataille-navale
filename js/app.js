@@ -32,44 +32,43 @@ function init() {
     displayGrid();
 
     //on surveille ce qu'on rentre dans le formulaire à l'aide d'un écouteur d'évènement
-    let form = document.querySelector('.form');
+    const form = document.querySelector('.form');
     form.addEventListener('submit', handleFormSubmit);
 
     // on surveille le bouton d'affichage des statistique
-    let statsButton = document.querySelector('button#stats');
-    statsButton.addEventListener('click', handleStatsButton)
+    const statsButton = document.querySelector('button#stats');
+    statsButton.addEventListener('click', handleStatsButton);
+
+    // on selectionne le bouton historique
+    const historyButton = document.querySelector('#toogle-actions');
+    historyButton.addEventListener('click', handleHistoryButton);
 
 }
 
 function handleFormSubmit(event) {
 
-    // on annule le rechargement de la page
-    event.preventDefault()
-    // console.log('formulaire soumis');
+    // On bloque le comportement par défaut du formulaire. C'est à dire faire une requete vers l'url contenu dans l'attribut action ou recharger si cet attribut est vide ou inexistant.
+    event.preventDefault();
 
-    // On recupére la valeur entrée par l'utilisateur dans le champs
+    // Pour envoyer le missile, on a besoin de récupérer la saisie de l'utilisateur. On commence donc par sélectionner le champ dans lequel on inscrit les coordonnées de la case ciblée
     const field = document.querySelector('#cellToHit');
 
-    // on transforme la chaine de caractère en majuscule
-    targetedCell = field.value.toUpperCase();
-
-    // On vide la propriété value du champ, donc on vide le contenu du champ sur la page
-    field.value = "";
+    // Une fois qu'on a le champ, on peut récupérer ce qu'il contient grace à la propriété value
+    const targetedCell = field.value.toUpperCase();
 
     // Si la cellule cible est valide, alors on envoie le missile
     if(checkCellName(targetedCell) === true) {
-    
+
         // On envoi le missile sur la cellule ciblée. 
         sendMissile(targetedCell);
-
-        // et on appelle la fonction permettant d'incrémenter le nombre de tour
-        uptadeRound();
-        
     } else {
         alert('La case ' + targetedCell + ' n\'existe pas. Veuillez entrer une cellule existante.');
     }
 
-    // on met le focus sur le champs pour eviter a l'utilisateur de cliquer à nouveau sur le champs
+    // On vide la propriété value du champ, donc on vide le contenu du champ sur la page
+    field.value = "";
+
+    // Pour pouvoir réécrire dans le champ rapidement, on peut donner le "focus" à ce champ. C'est à dire placer automatiquement le curseur dessus.
     field.focus();
 }
 
@@ -364,22 +363,38 @@ function handleStatsButton() {
     }
 }
 
+function handleHistoryButton () {
+    const actionElement = document.querySelector('#actions');
+    actionElement.classList.toggle('hide-actions');
+}
+
 // Méthode permettant d'ajouter une ligne à l'historique
 function addActionToHistory(success) {
     // On récupère le nom de la cellule entré par l'utilisateur;
     const field = document.querySelector('#cellToHit');
-    const cellName = field.value;
-    console.log(cellName);
+    const cellName = field.value.toUpperCase();
 
     // On crée un message qui concatène le numéro du tour et le nom de la cellule
     let message = "Tour #" + turn + " tir en " + cellName;
     
     // Si le paramètre success est égal à true, c'est que c'est un tir réussi. On concatène alors un "réussi" à la fin du message.
     if(success === true) {
-        message += " : réussi !";
+        message += " : réussi !!";
     } else {
         message += " : manqué...";
     }
+     
+    // on selectionne l'élément qui va contenir les messages
+    const actionContainer = document.querySelector("#actions");
+
+    // On crée un nouvel élément de type "div" qui va contenir le message
+    const messageElement = document.createElement('div');
+
+    // on ajoute le contenu du message dans l'élément crée
+    messageElement.textContent = message;
+
+    // On envoi l'élément dans le dom
+    actionContainer.prepend(messageElement);
 }
 
 
